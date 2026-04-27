@@ -1,13 +1,13 @@
 import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { ClaimReportPage } from '../pages/ClaimReportPage';
+import { ClaimRegistrationPage } from '../pages/ClaimRegistrationPage';
 
 /**
  * Rozszerzony fixture z Page Objects
  */
 type PageFixtures = {
     loginPage: LoginPage;
-    claimReportPage: ClaimReportPage;
+    claimRegistrationPage: ClaimRegistrationPage;
 };
 
 /**
@@ -19,9 +19,9 @@ export const test = base.extend<PageFixtures>({
         await use(loginPage);
     },
 
-    claimReportPage: async ({ page }, use) => {
-        const claimReportPage = new ClaimReportPage(page);
-        await use(claimReportPage);
+    claimRegistrationPage: async ({ page }, use) => {
+        const claimRegistrationPage = new ClaimRegistrationPage(page);
+        await use(claimRegistrationPage);
     },
 });
 

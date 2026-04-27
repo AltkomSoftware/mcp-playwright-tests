@@ -11,8 +11,8 @@ dotenv.config();
 export default defineConfig({
     testDir: './e2e/tests',
 
-    /* Uruchom testy równolegle */
-    fullyParallel: true,
+    /* Uruchamiaj testy sekwencyjnie */
+    fullyParallel: false,
 
     /* Niepowodzenie CI jeśli przypadkowo zostawiono test.only */
     forbidOnly: !!process.env.CI,
@@ -20,8 +20,8 @@ export default defineConfig({
     /* Liczba powtórzeń w CI */
     retries: process.env.CI ? 2 : 0,
 
-    /* Ilość równoległych workerów */
-    workers: process.env.CI ? 1 : undefined,
+    /* Ilość workerów - 1 wymusza wykonanie sekwencyjne */
+    workers: 1,
 
     /* Reporter */
     reporter: [

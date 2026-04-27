@@ -10,15 +10,16 @@ MCP/
 │   ├── fixtures/          # Fixture'y testowe (Page Objects, kontekst)
 │   │   └── pageFixtures.ts
 │   ├── helpers/           # Klasy pomocnicze i factory
-│   │   ├── UserFactory.ts
-│   │   └── ClaimFactory.ts
+│   │   ├── ClaimRegistrationFactory.ts
+│   │   └── index.ts
 │   ├── pages/             # Page Objects (wzorzec Page Object)
 │   │   ├── BasePage.ts
 │   │   ├── LoginPage.ts
-│   │   └── ClaimReportPage.ts
+│   │   └── ClaimRegistrationPage.ts
 │   └── tests/             # Specyfikacje testów
-│       ├── login.spec.ts
-│       └── claim-report.spec.ts
+│       ├── auto-login.spec.ts
+│       ├── claim-registration.spec.ts
+│       └── claim-registration-temp-policy.spec.ts
 ├── playwright.config.ts   # Konfiguracja Playwright
 ├── tsconfig.json         # Konfiguracja TypeScript
 ├── package.json
@@ -51,10 +52,10 @@ npm run test:ui
 npm run test:debug
 
 # Uruchomienie konkretnego pliku testowego
-npx playwright test e2e/tests/login.spec.ts
+npx playwright test e2e/tests/claim-registration.spec.ts
 
 # Uruchomienie testów z określonym tagiem
-npm run test:tag "@SLS_CLAIM_REPORT"
+npm run test:tag "@SLS_CLAIM_REGISTER"
 
 # Wyświetlenie raportu z ostatniego uruchomienia
 npm run test:report
@@ -65,9 +66,9 @@ npm run test:report
 Testy wykorzystują system tagów dla łatwego filtrowania i zarządzania:
 
 - **@SLS** - globalny tag dla wszystkich testów SLS
-- **@SLS_CLAIM_REPORT** - tag dla domeny zgłaszania szkód
+- **@SLS_CLAIM_REGISTER** - tag dla domeny rejestracji szkód
 - **@SLS_LOGIN** - tag dla domeny logowania
-- **@SLS_CLAIM_REPORT_X.Y** - numeracja scenariuszy (np. @SLS_CLAIM_REPORT_2.1)
+- **@SLS_X.Y** - numeracja scenariuszy (np. @SLS_4.1)
 
 ### Reguły numeracji:
 - W tym samym pliku spec: 1.1, 1.2, 1.3...
@@ -77,8 +78,8 @@ Testy wykorzystują system tagów dla łatwego filtrowania i zarządzania:
 
 ```typescript
 test('Pomyślne zgłoszenie szkody', 
-  { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.1'] }, 
-  async ({ claimReportPage }) => {
+  { tag: ['@SLS', '@SLS_CLAIM_REGISTER', '@SLS_4.1'] }, 
+  async ({ claimRegistrationPage }) => {
     // test implementation
   }
 );
@@ -98,7 +99,7 @@ Klasa bazowa zawierająca wspólne metody dla wszystkich Page Objects:
 ### Konkretne Page Objects
 Dziedziczą po BasePage i implementują specyficzne selektory i metody dla danej strony:
 - `LoginPage` - strona logowania
-- `ClaimReportPage` - strona zgłaszania szkody
+- `ClaimRegistrationPage` - przepływy rejestracji szkody
 
 ## 🔧 Fixtures
 
@@ -107,7 +108,7 @@ Fixtures udostępniają gotowe instancje Page Objects w testach:
 ```typescript
 import { test, expect } from '../fixtures/pageFixtures';
 
-test('Mój test', async ({ loginPage, claimReportPage }) => {
+test('Mój test', async ({ loginPage, claimRegistrationPage }) => {
   // Page Objects są już gotowe do użycia
 });
 ```
@@ -116,18 +117,11 @@ test('Mój test', async ({ loginPage, claimReportPage }) => {
 
 Factories generują dane testowe w sposób spójny i reużywalny:
 
-### UserFactory
+### ClaimRegistrationFactory
 ```typescript
-UserFactory.validUser()           // Prawidłowy użytkownik
-UserFactory.invalidEmailUser()    // Nieprawidłowy email
-UserFactory.randomUser()          // Losowy użytkownik
-```
-
-### ClaimFactory
-```typescript
-ClaimFactory.basicClaim()         // Podstawowe zgłoszenie
-ClaimFactory.minimalClaim()       // Minimalne dane
-ClaimFactory.randomClaim()        // Losowe zgłoszenie
+ClaimRegistrationFactory.standardHealthClaim()         // Dane dla szkody z istniejącej polisy
+ClaimRegistrationFactory.createTempPolicyClientData()  // Losowy klient do polisy tymczasowej
+ClaimRegistrationFactory.tempPolicyHealthClaim(...)    // Dane dla szkody z polisy tymczasowej
 ```
 
 ## 🎯 Dobre Praktyki
@@ -161,7 +155,7 @@ Po uruchomieniu testów dostępne są raporty:
 npm run test:debug
 
 # Uruchomienie konkretnego testu w trybie debug
-npx playwright test e2e/tests/login.spec.ts --debug
+npx playwright test e2e/tests/claim-registration.spec.ts --debug
 ```
 
 ## 📚 Dokumentacja

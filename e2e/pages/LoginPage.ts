@@ -9,16 +9,17 @@ export class LoginPage extends BasePage {
     private readonly emailInput: Locator;
     private readonly passwordInput: Locator;
     private readonly loginButton: Locator;
+    private readonly closeAlertButton: Locator;
     private readonly errorMessage: Locator;
     private readonly rememberMeCheckbox: Locator;
 
     constructor(page: Page) {
         super(page);
 
-        // Preferujemy role-based selectors i test IDs
-        this.emailInput = page.getByRole('textbox', { name: /email|e-mail/i });
-        this.passwordInput = page.getByRole('textbox', { name: /hasło|password/i });
+        this.emailInput = page.locator('input[type="text"]').first();
+        this.passwordInput = page.locator('input[type="password"]').first();
         this.loginButton = page.getByRole('button', { name: /zaloguj|login/i });
+        this.closeAlertButton = page.getByRole('button', { name: /zamknij/i }).first();
         this.errorMessage = page.getByTestId('login-error');
         this.rememberMeCheckbox = page.getByRole('checkbox', { name: /zapamiętaj|remember/i });
     }
@@ -27,14 +28,22 @@ export class LoginPage extends BasePage {
      * Przejście do strony logowania
      */
     async navigate(): Promise<void> {
-        await this.goto('/login');
-        await this.waitForPageLoad();
+        await this.goto('/');
+        await this.waitForElement(this.loginButton);
     }
 
     /**
      * Logowanie użytkownika
      */
     async login(email: string, password: string, rememberMe: boolean = false): Promise<void> {
+        if (await this.closeAlertButton.count()) {
+            try {
+                await this.closeAlertButton.click({ timeout: 1000 });
+            } catch {
+                // Alert nie zawsze blokuje formularz.
+            }
+        }
+
         await this.fill(this.emailInput, email);
         await this.fill(this.passwordInput, password);
 
