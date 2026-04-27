@@ -1,0 +1,30 @@
+# Dependencje
+node_modules/
+
+# Wyniki testów
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Środowisko
+.env
+.env.local
+
+# Build
+dist/
+build/
+
+# IDE
+# .vscode/ — nie ignorujemy, żeby zachować konfigurację Play button
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logi
+*.log
+npm-debug.log*

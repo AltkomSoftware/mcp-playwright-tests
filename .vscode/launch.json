@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Playwright: Debug current test",
+      "type": "playwright",
+      "request": "launch",
+      "rootDir": "${workspaceFolder}",
+      "config": "playwright.config.ts"
+    }
+  ]
+}
