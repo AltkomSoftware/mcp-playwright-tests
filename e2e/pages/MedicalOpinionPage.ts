@@ -122,6 +122,23 @@ export class MedicalOpinionPage extends BasePage {
         await this.page.getByRole('button', { name: 'Tak', exact: true }).click();
     }
 
+    async clickSaveOpinionButton(): Promise<void> {
+        const dialog = this.page.getByRole('dialog', { name: 'Wydanie opinii medycznej' });
+        await dialog.getByRole('button', { name: ' Zapisz opinię medyczną' }).click();
+    }
+
+    async assertSaveConfirmDialogContains(claimNumber: string): Promise<void> {
+        const confirmDialog = this.page.getByRole('alertdialog', { name: 'Potwierdź' });
+        await expect(confirmDialog).toBeVisible();
+        await expect(confirmDialog).toContainText(`w sprawie ${claimNumber}`);
+        await expect(confirmDialog).toContainText('Ta operacja jest nieodwracalna');
+    }
+
+    async cancelSaveConfirmDialog(): Promise<void> {
+        await this.page.getByRole('alertdialog', { name: 'Potwierdź' })
+            .getByRole('button', { name: 'Nie' }).click();
+    }
+
     async closeIssueOpinionDialog(): Promise<void> {
         const dialog = this.page.getByRole('dialog', { name: 'Wydanie opinii medycznej' });
         await dialog.getByRole('button', { name: ' Zamknij', exact: true }).click();
@@ -147,6 +164,14 @@ export class MedicalOpinionPage extends BasePage {
         }
         await this.saveOpinion();
         await this.assertIssueOpinionDialogClosed();
+    }
+
+    async assertValidationRequiredError(): Promise<void> {
+        await expect(this.page.getByText('Pole jest wymagane.')).toBeVisible();
+    }
+
+    async assertOperationalStatus(status: string): Promise<void> {
+        await expect(this.page.getByText(status)).toBeVisible();
     }
 
     async assertCurrentOpinionValue(value: string): Promise<void> {

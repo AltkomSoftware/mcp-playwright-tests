@@ -187,4 +187,83 @@ test.describe('Opinia medyczna — zakładka szczegółów szkody', () => {
             await medicalOpinionPage.assertCurrentOpinionValue('Niezasadna');
         }
     );
+
+    test(
+        'Nowa szkoda wyświetla komunikat o braku wydanej opinii',
+        { tag: ['@SLS', '@SLS_MEDICAL_OPINION', '@SLS_6.10'] },
+        async ({ loginPage, claimRegistrationPage, medicalOpinionPage }) => {
+            const claimNumber = await registerClaim(loginPage, claimRegistrationPage);
+            await searchAndGoToDamageDetails(medicalOpinionPage.page, claimNumber);
+            await goToMedicalOpinionTab(medicalOpinionPage.page);
+
+            await medicalOpinionPage.assertNoCurrentOpinion();
+        }
+    );
+
+    test(
+        'Potwierdzenie "Poproś" zmienia status operacyjny na "Przekazano do Lekarza T.U."',
+        { tag: ['@SLS', '@SLS_MEDICAL_OPINION', '@SLS_6.11'] },
+        async ({ loginPage, claimRegistrationPage, medicalOpinionPage }) => {
+            const claimNumber = await registerClaim(loginPage, claimRegistrationPage);
+            await searchAndGoToDamageDetails(medicalOpinionPage.page, claimNumber);
+            await goToMedicalOpinionTab(medicalOpinionPage.page);
+
+            await medicalOpinionPage.clickAskForOpinion();
+            await medicalOpinionPage.page.getByRole('button', { name: 'Tak', exact: true }).click();
+            await medicalOpinionPage.page.waitForURL(/damage-task-create/);
+
+            await searchAndGoToDamageDetails(medicalOpinionPage.page, claimNumber);
+            await medicalOpinionPage.assertOperationalStatus('Przekazano do Lekarza T.U.');
+        }
+    );
+
+    test(
+        'Dialog "Zapisz opinię" wyświetla numer szkody i wymaga potwierdzenia nieodwracalnej operacji',
+        { tag: ['@SLS', '@SLS_MEDICAL_OPINION', '@SLS_6.12'] },
+        async ({ loginPage, claimRegistrationPage, medicalOpinionPage }) => {
+            const claimNumber = await registerClaim(loginPage, claimRegistrationPage);
+            await searchAndGoToDamageDetails(medicalOpinionPage.page, claimNumber);
+            await goToMedicalOpinionTab(medicalOpinionPage.page);
+
+            await medicalOpinionPage.clickIssueOpinion();
+            await medicalOpinionPage.selectOpinionValue('Zasadna');
+            await medicalOpinionPage.clickSaveOpinionButton();
+
+            await medicalOpinionPage.assertSaveConfirmDialogContains(claimNumber);
+            await medicalOpinionPage.cancelSaveConfirmDialog();
+        }
+    );
+
+    test(
+        'Pole "Opinia medyczna" jest wymagane — brak wyboru blokuje zapis',
+        { tag: ['@SLS', '@SLS_MEDICAL_OPINION', '@SLS_6.13'] },
+        async ({ loginPage, medicalOpinionPage }) => {
+            const login = process.env.TEST_USER_EMAIL!;
+            const password = process.env.TEST_USER_PASSWORD!;
+
+            await loginPage.navigate();
+            await loginPage.login(login, password);
+            await loginPage.assertURL(/\/dashboard/);
+
+            await medicalOpinionPage.navigateToMedicalOpinionTab(DAMAGE_ID);
+            await medicalOpinionPage.clickIssueOpinion();
+            await medicalOpinionPage.clickSaveOpinionButton();
+            await medicalOpinionPage.assertValidationRequiredError();
+            await medicalOpinionPage.closeIssueOpinionDialog();
+        }
+    );
+
+    test(
+        'Po zapisaniu opinii status operacyjny zmienia się na "Wydano opinię medyczną"',
+        { tag: ['@SLS', '@SLS_MEDICAL_OPINION', '@SLS_6.14'] },
+        async ({ loginPage, claimRegistrationPage, medicalOpinionPage }) => {
+            const claimNumber = await registerClaim(loginPage, claimRegistrationPage);
+            await searchAndGoToDamageDetails(medicalOpinionPage.page, claimNumber);
+            await goToMedicalOpinionTab(medicalOpinionPage.page);
+
+            await medicalOpinionPage.issueOpinionViaDialog('Zasadna', 'Opinia do testu statusu');
+
+            await medicalOpinionPage.assertOperationalStatus('Wydano opinię medyczną');
+        }
+    );
 });
