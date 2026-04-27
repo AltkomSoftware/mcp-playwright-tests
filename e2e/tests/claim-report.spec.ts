@@ -19,7 +19,7 @@ test.describe('Zgłaszanie szkody', () => {
     });
 
     test('Pomyślne zgłoszenie szkody z kompletnymi danymi',
-        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.1'] },
+        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_2.1'] },
         async ({ claimReportPage }) => {
             // Given - użytkownik ma wszystkie wymagane dane do zgłoszenia
             const claim = ClaimFactory.basicClaim();
@@ -34,7 +34,7 @@ test.describe('Zgłaszanie szkody', () => {
     );
 
     test('Zgłoszenie szkody z minimalną ilością danych',
-        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.2'] },
+        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_2.2'] },
         async ({ claimReportPage }) => {
             // Given - użytkownik ma minimalne wymagane dane
             const claim = ClaimFactory.minimalClaim();
@@ -49,7 +49,7 @@ test.describe('Zgłaszanie szkody', () => {
     );
 
     test('Walidacja zgłoszenia z przyszłą datą zdarzenia',
-        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.3'] },
+        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_2.3'] },
         async ({ claimReportPage }) => {
             // Given - użytkownik próbuje zgłosić szkodę z przyszłą datą
             const claim = ClaimFactory.claimWithFutureDate();
@@ -64,7 +64,7 @@ test.describe('Zgłaszanie szkody', () => {
     );
 
     test('Anulowanie zgłoszenia szkody',
-        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.4'] },
+        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_2.4'] },
         async ({ claimReportPage, page }) => {
             // Given - użytkownik rozpoczął wypełnianie formularza
             const claim = ClaimFactory.basicClaim();
@@ -79,7 +79,7 @@ test.describe('Zgłaszanie szkody', () => {
     );
 
     test('Zgłoszenie szkody z długim opisem',
-        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_2.5'] },
+        { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_2.5'] },
         async ({ claimReportPage }) => {
             // Given - użytkownik ma bardzo długi opis szkody
             const claim = ClaimFactory.claimWithLongDescription();

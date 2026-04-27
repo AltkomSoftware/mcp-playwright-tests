@@ -5,3 +5,4 @@
 - Only after all steps are completed, emit a Playwright TypeScript test that uses @playwright
 - Save generated test file in the tests directory
 - Execute the test file and iterate until the test passes
+- Always run the browser maximized: use `viewport: null` and `launchOptions: { args: ['--start-maximized'] }` in playwright config.

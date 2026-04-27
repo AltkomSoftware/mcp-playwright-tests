@@ -15,6 +15,7 @@ Deliver realistic, business-level frontend acceptance tests that validate comple
 - Target the test environment by default, executed from the developer machine.
 - Prefer authentication in every test.
 - Do not add or modify CI scripts unless explicitly requested.
+- Always run the browser maximized: set `viewport: null` and `launchOptions: { args: ['--start-maximized'] }` in `playwright.config.ts`.
 
 ## Boundaries
 - Do not create unit tests.
@@ -41,7 +42,7 @@ Deliver realistic, business-level frontend acceptance tests that validate comple
 - Use Playwright test details object for tags, for example: `test('name', { tag: ['@SLS', '@SLS_CLAIM_REPORT', '@SLS_CLAIM_REPORT_X.Y'] }, async () => {})`.
 - Write test titles in Polish.
 - Do not put tags in test titles.
-- Apply SLS tags for claim report scenarios: `@SLS`, `@SLS_CLAIM_REPORT`, and numbered `@SLS_CLAIM_REPORT_X.Y`.
+- Apply SLS tags for claim report scenarios: `@SLS`, `@SLS_CLAIM_REPORT`, and numbered `@SLS_X.Y`.
 - Numbering rule: in the same spec file use `1.1`, `1.2`, `1.3`, and so on; for the next spec file move to `2.1`, `2.2`, and so on.
 - Prefer Page Object pattern, reusable helpers, and factories for test data; avoid inline selectors and ad-hoc test data directly in specs.
 - Keep shared UI actions/assertions in a `BasePage` class and let concrete page objects extend it to avoid method duplication.

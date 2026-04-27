@@ -38,6 +38,12 @@ export default defineConfig({
         /* Tryb headless - false = widoczne okno przeglądarki */
         headless: process.env.HEADLESS === 'true',
 
+        /* Maksymalizacja okna przeglądarki */
+        viewport: null,
+        launchOptions: {
+            args: ['--start-maximized'],
+        },
+
         /* Zbieraj trace przy pierwszym retry testu */
         trace: 'on-first-retry',
 
@@ -55,17 +61,32 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
+            use: {
+                ...devices['Desktop Chrome'],
+                viewport: null,
+                deviceScaleFactor: undefined,
+                launchOptions: { args: ['--start-maximized'] },
+            },
         },
 
         {
             name: 'firefox',
-            use: { ...devices['Desktop Firefox'] },
+            use: {
+                ...devices['Desktop Firefox'],
+                viewport: null,
+                deviceScaleFactor: undefined,
+                launchOptions: { args: ['--start-maximized'] },
+            },
         },
 
         {
             name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
+            use: {
+                ...devices['Desktop Safari'],
+                viewport: null,
+                deviceScaleFactor: undefined,
+                launchOptions: { args: ['--start-maximized'] },
+            },
         },
 
         /* Testy mobilne */
