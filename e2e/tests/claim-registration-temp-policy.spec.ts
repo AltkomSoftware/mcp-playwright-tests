@@ -26,8 +26,8 @@ test.describe('Rejestracja szkody z polisy tymczasowej', () => {
             await claimRegistrationPage.completeEventStep(scenario.eventStep);
             await claimRegistrationPage.completeDamageStep(scenario.damageStep.bankAccount);
             await claimRegistrationPage.completeRelatedDamagesStep(scenario.relatedCase);
-            await claimRegistrationPage.completeQuestionnaireAndSkipAttachments(scenario.questionnaire.answer);
-            await claimRegistrationPage.assertClaimCreated();
+            const claimNumber = await claimRegistrationPage.completeQuestionnaireAndSkipAttachments(scenario.questionnaire.answer);
+            await claimRegistrationPage.assertClaimCreated(claimNumber);
         },
     );
 });

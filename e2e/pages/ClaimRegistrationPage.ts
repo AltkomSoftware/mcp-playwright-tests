@@ -143,7 +143,7 @@ export class ClaimRegistrationPage extends BasePage {
         await this.assertURL(/register-damage/);
     }
 
-    async completeQuestionnaireAndSkipAttachments(answer: string): Promise<void> {
+    async completeQuestionnaireAndSkipAttachments(answer: string): Promise<string> {
         await this.assertURL(/register-damage/);
 
         const questionnaireTriggers = this.page.getByRole('button', { name: 'dropdown trigger' });
@@ -154,13 +154,22 @@ export class ClaimRegistrationPage extends BasePage {
         }
 
         await this.page.getByRole('button', { name: 'Zapisz i przejdź do dodawania dokumentów' }).click();
+
+        const successMessage = this.page.getByText(/Szkoda o numerze .+ założona pomyślnie/);
+        await this.assertVisible(successMessage);
+        const messageText = (await successMessage.textContent()) ?? '';
+        const match = messageText.match(/Szkoda o numerze\s+(\S+)\s+założona pomyślnie/);
+        const claimNumber = match ? match[1] : '';
+
         await this.assertURL(/attachment-documents/);
         await this.page.getByRole('button', { name: 'Pomiń' }).click();
+        return claimNumber;
     }
 
-    async assertClaimCreated(): Promise<void> {
+    async assertClaimCreated(claimNumber: string): Promise<void> {
         await this.assertURL(/damage-details/);
         await this.assertVisible(this.page.getByText(/Nr szkody:/));
+        console.log(`Nr szkody: ${claimNumber}`);
     }
 
     private async addMedicalService(service: MedicalServiceData): Promise<void> {
