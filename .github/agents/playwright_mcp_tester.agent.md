@@ -26,7 +26,8 @@ Your job is to create and maintain Playwright + TypeScript acceptance tests that
 - Treat these tests as acceptance tests, not unit tests and not narrow integration tests.
 - Prefer Page Object pattern, reusable helpers, and factories for test data.
 - Keep shared UI actions and assertions in `BasePage`, then extend it in concrete page objects.
-- Keep helper functions and data factories outside spec files.
+- Keep helper functions and data factories outside spec files — never define functions or methods directly in spec files.
+- Import helpers directly from their source files (e.g. `../helpers/MedicalOpinionHelper`); do not re-export them through barrel `index.ts` files.
 - Avoid inline selectors and ad-hoc data directly in specs when the logic can be encapsulated.
 - Write test titles in Polish.
 - Do not put tags in test titles.

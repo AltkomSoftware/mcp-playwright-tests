@@ -69,25 +69,25 @@ export default defineConfig({
             },
         },
 
-        {
-            name: 'firefox',
-            use: {
-                ...devices['Desktop Firefox'],
-                viewport: null,
-                deviceScaleFactor: undefined,
-                launchOptions: { args: ['--start-maximized'] },
-            },
-        },
+        // {
+        //     name: 'firefox',
+        //     use: {
+        //         ...devices['Desktop Firefox'],
+        //         viewport: null,
+        //         deviceScaleFactor: undefined,
+        //         launchOptions: { args: ['--start-maximized'] },
+        //     },
+        // },
 
-        {
-            name: 'webkit',
-            use: {
-                ...devices['Desktop Safari'],
-                viewport: null,
-                deviceScaleFactor: undefined,
-                launchOptions: { args: ['--start-maximized'] },
-            },
-        },
+        // {
+        //     name: 'webkit',
+        //     use: {
+        //         ...devices['Desktop Safari'],
+        //         viewport: null,
+        //         deviceScaleFactor: undefined,
+        //         launchOptions: { args: ['--start-maximized'] },
+        //     },
+        // },
 
         /* Testy mobilne */
         // {
