@@ -2,7 +2,7 @@ import { test, expect } from '../fixtures/pageFixtures';
 import { registerClaim, searchAndGoToDamageDetails, goToMedicalOpinionTab } from '../helpers/MedicalOpinionHelper';
 
 const DAMAGE_ID = 581;
-
+// testy tworzone na bazie dokumentacji użytkownika
 test.describe('Opinia medyczna — zakładka szczegółów szkody', () => {
 
     test(

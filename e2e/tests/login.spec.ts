@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-
+// testy przygotowany na bazie prostego scenariusza wpisanego w chat
 test.describe('Logowanie', () => {
 
     test('Logowanie użytkownika z danymi z pliku .env',

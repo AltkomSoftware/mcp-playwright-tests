@@ -1,7 +1,7 @@
 import { test } from '../fixtures/pageFixtures';
 
 import { ClaimRegistrationFactory } from '../helpers';
-
+// testy na bazie scenariusza manualnego xray
 test.describe('Rejestracja szkody zdrowotnej', () => {
 
     test(

@@ -7,7 +7,7 @@ import {
 import { registerClaim, searchAndGoToDamageDetails } from '../helpers/MedicalOpinionHelper';
 
 const DAMAGE_ID = 581;
-
+// testy tworzone na bazie kryteriów akceptacji z US
 test.describe('Priorytet szkody', () => {
     test(
         'Pole Priorytet na kroku Szkoda w rejestracji jest domyślnie ustawione na Zwykła',
