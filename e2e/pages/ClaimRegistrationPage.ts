@@ -132,6 +132,23 @@ export class ClaimRegistrationPage extends BasePage {
         await this.assertURL(/related-damages/);
     }
 
+    async assertDamageStepPriorityDefault(): Promise<void> {
+        await this.assertURL(/damage-configurator\/damage/);
+        const priorityField = await this.getPrimeSelectField(this.page, 'Priorytet');
+        await this.assertVisible(priorityField);
+        await this.assertVisible(priorityField.getByText('Zwykła', { exact: true }));
+    }
+
+    async completeDamageStepWithPriority(bankAccount: string, priority: string): Promise<void> {
+        await this.assertURL(/damage-configurator\/damage/);
+        if (priority !== 'Zwykła') {
+            await this.selectPrimeOption(this.page, 'Priorytet', priority);
+        }
+        await this.page.getByRole('textbox', { name: 'Nr rachunku bankowego' }).fill(bankAccount);
+        await this.page.getByRole('button', { name: 'Dalej' }).click();
+        await this.assertURL(/related-damages/);
+    }
+
     async completeRelatedDamagesStep(relatedCase: RelatedCaseData): Promise<void> {
         await this.assertURL(/related-damages/);
         await this.page.getByRole('button', { name: 'Dodaj powiązaną sprawę obcą' }).click();
@@ -147,6 +164,7 @@ export class ClaimRegistrationPage extends BasePage {
         await this.assertURL(/register-damage/);
 
         const questionnaireTriggers = this.page.getByRole('button', { name: 'dropdown trigger' });
+        await questionnaireTriggers.first().waitFor({ state: 'visible', timeout: 15000 });
         const triggerCount = await questionnaireTriggers.count();
         for (let index = 0; index < triggerCount; index++) {
             await questionnaireTriggers.nth(index).click();
@@ -156,13 +174,14 @@ export class ClaimRegistrationPage extends BasePage {
         await this.page.getByRole('button', { name: 'Zapisz i przejdź do dodawania dokumentów' }).click();
 
         const successMessage = this.page.getByText(/Szkoda o numerze .+ założona pomyślnie/);
-        await this.assertVisible(successMessage);
+        await this.assertVisible(successMessage, 15000);
         const messageText = (await successMessage.textContent()) ?? '';
         const match = messageText.match(/Szkoda o numerze\s+(\S+)\s+założona pomyślnie/);
         const claimNumber = match ? match[1] : '';
 
         await this.assertURL(/attachment-documents/);
         await this.page.getByRole('button', { name: 'Pomiń' }).click();
+        await this.page.waitForURL(/damage-details/, { timeout: 15000 });
         return claimNumber;
     }
 

@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { ClaimRegistrationPage } from '../pages/ClaimRegistrationPage';
 import { MedicalOpinionPage } from '../pages/MedicalOpinionPage';
+import { DamageDataPage } from '../pages/DamageDataPage';
 
 /**
  * Rozszerzony fixture z Page Objects
@@ -10,6 +11,7 @@ type PageFixtures = {
     loginPage: LoginPage;
     claimRegistrationPage: ClaimRegistrationPage;
     medicalOpinionPage: MedicalOpinionPage;
+    damageDataPage: DamageDataPage;
 };
 
 /**
@@ -29,6 +31,11 @@ export const test = base.extend<PageFixtures>({
     medicalOpinionPage: async ({ page }, use) => {
         const medicalOpinionPage = new MedicalOpinionPage(page);
         await use(medicalOpinionPage);
+    },
+
+    damageDataPage: async ({ page }, use) => {
+        const damageDataPage = new DamageDataPage(page);
+        await use(damageDataPage);
     },
 });
 
