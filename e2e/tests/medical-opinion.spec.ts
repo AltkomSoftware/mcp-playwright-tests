@@ -3,6 +3,7 @@ import { registerClaim, searchAndGoToDamageDetails, goToMedicalOpinionTab } from
 
 const DAMAGE_ID = 581;
 // testy tworzone na bazie dokumentacji użytkownika
+// w ramach prezentacji można dodać do notatek: https://altkomsoftware.atlassian.net/wiki/spaces/SLS/pages/841077361/DONE_LMG+SB.08.3.10+Notatki
 test.describe('Opinia medyczna — zakładka szczegółów szkody', () => {
 
     test(

@@ -7,7 +7,7 @@ import {
 import { registerClaim, searchAndGoToDamageDetails } from '../helpers/MedicalOpinionHelper';
 
 const DAMAGE_ID = 581;
-// testy tworzone na bazie kryteriów akceptacji z US
+// testy tworzone na bazie kryteriów akceptacji z US https://jira.luxmed.pl/browse/SLS-6094
 test.describe('Priorytet szkody', () => {
     test(
         'Pole Priorytet na kroku Szkoda w rejestracji jest domyślnie ustawione na Zwykła',

@@ -1,7 +1,7 @@
 import { test } from '../fixtures/pageFixtures';
 
 import { ClaimRegistrationFactory } from '../helpers';
-// testy na bazie scenariusza manualnego xray
+// testy na bazie scenariusza manualnego xray https://jira.luxmed.pl/browse/SLS-8552
 test.describe('Rejestracja szkody zdrowotnej', () => {
 
     test(
