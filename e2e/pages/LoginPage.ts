@@ -52,6 +52,7 @@ export class LoginPage extends BasePage {
         }
 
         await this.click(this.loginButton);
+        await this.page.waitForURL(/\/dashboard/, { timeout: 30000 });
     }
 
     /**
