@@ -90,7 +90,7 @@ export class ClaimRegistrationFactory {
             },
             registrationStep: {
                 submissionType: 'Refundacja',
-                submissionDay: '27',
+                submissionDay: new Date().getDate().toString(),
                 reporterType: 'Ubezpieczony',
                 channel: 'E-mail',
                 consent: 'Tak',
@@ -98,7 +98,7 @@ export class ClaimRegistrationFactory {
             eventStep: {
                 cause: 'Zgodnie z usługą medyczną',
                 protection: 'Refundacja cennikowa',
-                eventDay: '20',
+                eventDay: new Date().getDate().toString(),
                 medicalService: {
                     serviceName: 'Wizyta domowa - internisty on-call (dzień)',
                     invoiceAmount: '150',

@@ -25,6 +25,7 @@ test.describe('Logowanie', () => {
             await page.getByRole('button', { name: 'Zaloguj' }).click();
 
             // Then - użytkownik jest zalogowany i widzi dashboard
+            await page.waitForURL(/\/dashboard/, { timeout: 30000 });
             await expect(page).toHaveURL(/\/dashboard/);
             await expect(page.getByRole('button', { name: new RegExp(login, 'i') })).toBeVisible();
         }

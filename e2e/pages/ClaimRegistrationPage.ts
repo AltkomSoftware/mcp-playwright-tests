@@ -262,7 +262,10 @@ export class ClaimRegistrationPage extends BasePage {
     }
 
     private async selectCalendarDay(day: string): Promise<void> {
-        await this.page.getByText(day, { exact: true }).first().click();
+        await this.page
+            .locator('td:not(.p-datepicker-other-month)')
+            .getByText(day, { exact: true })
+            .click();
     }
 
     private async fillIfProvided(fieldName: string, value?: string): Promise<void> {
